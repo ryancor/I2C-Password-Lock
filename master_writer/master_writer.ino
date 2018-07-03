@@ -25,7 +25,8 @@ void loop() {
   Wire.endTransmission();
 
   delay(5000);
-  
+
+  // This is where we request from slave if we got password right  
   Wire.requestFrom(8, 17); // device, how_many_bytes
   while(1 < Wire.available()) {
     char val = Wire.read();

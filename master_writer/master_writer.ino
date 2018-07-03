@@ -13,16 +13,12 @@ void setup() {
 byte x = 0;
 
 void loop() {
-  Wire.beginTransmission(8); // transmit to device #8 (SLAVE_ADDRESS)
-  Wire.write(x);              // sends one byte
-  Wire.endTransmission();    // stop transmitting
+  send_msg_to_slave((byte)x);
 
   x++;
   delay(5000);
 
-  Wire.beginTransmission(8);
-  Wire.write("secret_message_h4ck3r");
-  Wire.endTransmission();
+  send_msg_to_slave("secret_message_h4ck3r");
 
   delay(5000);
 
@@ -34,3 +30,10 @@ void loop() {
   }
   Serial.println("");
 }
+
+void send_msg_to_slave(char *wordz) {
+  Wire.beginTransmission(8); // transmit to device #8 (SLAVE_ADDRESS)
+  Wire.write(wordz); // sends one byte
+  Wire.endTransmission(); // stop transmitting
+}
+

@@ -28,7 +28,8 @@ void receiveEvent(int howMany) {
     Serial.print(c);         // print the character
   }
   Serial.println("");
-  
+
+  // this is the string we are recieving from master, which contains the password  
   if(str_recieved.substring(14,18) == "_h4c") {
     digitalWrite(LED_BUTTON, HIGH);
   } else {

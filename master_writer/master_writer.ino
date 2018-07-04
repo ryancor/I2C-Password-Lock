@@ -11,6 +11,9 @@ void setup() {
 }
 
 byte x = 0;
+const byte numChars = 32;
+char receivedChars[numChars];
+boolean newData = false;
 
 void loop() {
   send_msg_to_slave((byte)x);
@@ -18,8 +21,14 @@ void loop() {
   x++;
   delay(5000);
 
-  send_msg_to_slave("secret_message_h4ck3r");
-
+  // test password "secret_message_h4ck3r"
+  Serial.println("Input Password: ");
+  recvWithEndMarker();
+  
+  char *final_pass = showNewData();
+  send_msg_to_slave(final_pass);
+  final_pass = ""; // clear the buffer
+ 
   delay(5000);
 
   // This is where we request from slave if we got password right  
@@ -37,3 +46,35 @@ void send_msg_to_slave(char *wordz) {
   Wire.endTransmission(); // stop transmitting
 }
 
+void recvWithEndMarker() {
+  static byte ndx = 0;
+  char endMarker = '\n';
+  char rc;
+ 
+  while (Serial.available() > 0 && newData == false) {
+    rc = Serial.read();
+
+    if (rc != endMarker) {
+      receivedChars[ndx] = rc;
+      ndx++;
+      
+      if (ndx >= numChars) {
+        ndx = numChars - 1;
+      }
+    } else {
+      receivedChars[ndx] = '\0'; // terminate the string
+      ndx = 0;
+      newData = true;
+    }
+  }
+}
+
+char *showNewData() {
+  if (newData == true) {
+    Serial.print("Recieved Password => ");
+    Serial.println(receivedChars);
+    newData = false;
+
+    return receivedChars;
+  }
+}

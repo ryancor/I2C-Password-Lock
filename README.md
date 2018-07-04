@@ -7,3 +7,12 @@
 	- Upload the reciever code to the second MCU
 3. Example
 	- ![alt text](https://www.arduino.cc/en/uploads/Tutorial/Master_Sender_bb.png)
+4. On master, open up serial console =>
+	- Baud Rate: 9600
+	- Line: New Line
+	- Example
+	```
+	Input Password: 
+	Recieved Password => secret_message_h4ck3r
+	Got the password
+	```
